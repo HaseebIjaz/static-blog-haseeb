@@ -4,6 +4,13 @@ import { notFound } from 'next/navigation';
 import getFormattedDate from '@/lib/getFormattedDate';
 import Link from 'next/link';
 
+export function generateStaticParams() {
+    const posts = getSortedPostsData(); // request will be deduped = eliminae unnecessary copies
+    return posts.map((post) => {
+        postId: post.id
+    })
+}
+
 //Dynamic Metadata for a dynamic page
 export function generateMetadata({params}: {params: {postId: string}}){
     const posts = getSortedPostsData(); // request will be deduped = eliminae unnecessary copies
@@ -20,7 +27,6 @@ export function generateMetadata({params}: {params: {postId: string}}){
     return {
         title: post.title,
     }
-
 }
 
 const Post = async ({ params }:{ params: {postId: string}}) => {
